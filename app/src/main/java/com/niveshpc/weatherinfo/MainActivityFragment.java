@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -20,7 +24,7 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        String [] forecast =  {"Mon 6/23-Sunny-31/17",
+        String [] forecastArray =  {"Mon 6/23-Sunny-31/17",
                 "Tue 6/24-Foggy-21/8",
                 "Wed 6/25-Cloudy-22/17",
                 "Thurs 6/26-Rainy-18/11",
@@ -29,11 +33,15 @@ public class MainActivityFragment extends Fragment {
         "Sun 6/29-Sunny-20/7"};
 
         View rootView =  inflater.inflate(R.layout.fragment_main, container, false);
-        ArrayAdapter<String> weekForecast = new ArrayAdapter<String>(getActivity(),R.layout.fragment_main,R.id.text_view_forecast,forecast);
+
+        List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 
         ListView listView =   (ListView) rootView.findViewById(R.id.list_view_forecast);
 
-       listView.setAdapter(weekForecast);
+        ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_view_item_forecast,R.id.text_view_forecast,weekForecast);
+
+
+       listView.setAdapter(mForecastAdapter);
 
         return rootView ;
     }
