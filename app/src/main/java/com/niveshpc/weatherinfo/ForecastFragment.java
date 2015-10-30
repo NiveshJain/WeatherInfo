@@ -1,5 +1,6 @@
 package com.niveshpc.weatherinfo;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -36,6 +38,8 @@ import java.util.TimeZone;
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment {
+
+
 
     private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -93,10 +97,26 @@ public class ForecastFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.list_view_forecast);
 
         //initializing the adapter
-        ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_view_item_forecast, R.id.text_view_forecast, weekForecast);
+        final ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_view_item_forecast, R.id.text_view_forecast, weekForecast);
 
         //binding the listview to the adpater
         listView.setAdapter(mForecastAdapter);
+
+        //Click Event on List
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                String forecast = mForecastAdapter.getItem(position);
+                Intent forecastIntent = new Intent(getActivity(),Detail_Activity.class).putExtra(Intent.EXTRA_TEXT,forecast);
+                startActivity(forecastIntent);
+
+
+
+            }
+        });
+
 
 
         return rootView;
@@ -104,8 +124,6 @@ public class ForecastFragment extends Fragment {
 
 
     class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
-
-
 
 
         @Override
@@ -185,12 +203,19 @@ public class ForecastFragment extends Fragment {
                 Log.i(LOG_TAG + "*****DATA********", "Forecast JSON String" + forecastJsonStr);
 
             } catch (IOException e) {
-                Log.e("PlaceholderFragment", "Error ", e);
-                Log.e("ERROR_IO", e.getCause().getMessage());
+
+                Log.e("*********", "Error ", e);
+
                 // If the code didn't successfully get the weather data, there's no point in attempting
                 // to parse it.
                 forecastJsonStr = null;
-            } finally {
+            } catch (RuntimeException re) {
+                String errorMessage = re.getCause().getMessage();
+                Log.e("******", errorMessage);
+
+            }
+
+            finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
@@ -212,6 +237,7 @@ public class ForecastFragment extends Fragment {
 
             return null;
         }
+
 
 
         /* The date/time conversion code is going to be moved outside the asynctask later,
