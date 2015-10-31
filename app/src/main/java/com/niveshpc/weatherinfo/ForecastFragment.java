@@ -39,7 +39,7 @@ import java.util.TimeZone;
  */
 public class ForecastFragment extends Fragment {
 
-
+   private  ArrayAdapter<String> mForecastAdapter;
 
     private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -97,7 +97,7 @@ public class ForecastFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.list_view_forecast);
 
         //initializing the adapter
-        final ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_view_item_forecast, R.id.text_view_forecast, weekForecast);
+         mForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_view_item_forecast, R.id.text_view_forecast, weekForecast);
 
         //binding the listview to the adpater
         listView.setAdapter(mForecastAdapter);
@@ -109,9 +109,8 @@ public class ForecastFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
                 String forecast = mForecastAdapter.getItem(position);
-                Intent forecastIntent = new Intent(getActivity(),Detail_Activity.class).putExtra(Intent.EXTRA_TEXT,forecast);
+                Intent forecastIntent = new Intent(getActivity(), Detail_Activity.class).putExtra(Intent.EXTRA_TEXT, forecast);
                 startActivity(forecastIntent);
-
 
 
             }
@@ -123,8 +122,20 @@ public class ForecastFragment extends Fragment {
     }
 
 
+
     class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
+
+        @Override
+        protected void onPostExecute(String[] weekForecast) {
+            if(weekForecast != null)
+            {
+                mForecastAdapter.clear();
+                for(String dayForecast : weekForecast)
+                mForecastAdapter.add(dayForecast);
+            }
+            
+        }
 
         @Override
         protected String[] doInBackground(String... params) {
