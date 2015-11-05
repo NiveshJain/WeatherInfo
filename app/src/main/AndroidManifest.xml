@@ -21,11 +21,26 @@
         <activity
             android:name=".Detail_Activity"
             android:label="@string/title_activity_detail_"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+
+            >
+
+            <!--> Support for API lower than 16  <-->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.niveshpc.weatherinfo.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".Settings_Activity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity" >
+            <!--> Support for API lower than 16  <-->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.niveshpc.weatherinfo.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

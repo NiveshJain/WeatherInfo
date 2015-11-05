@@ -1,5 +1,6 @@
 package com.niveshpc.weatherinfo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,6 +38,7 @@ public class Detail_Activity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this,Settings_Activity.class));
             return true;
         }
 
