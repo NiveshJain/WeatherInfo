@@ -1,9 +1,11 @@
 package com.niveshpc.weatherinfo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,9 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -64,9 +64,8 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
             Log.d("***************", "***********************");
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute("400078");
-
+            //updateWeather sets the location key (pincode)
+            updateWeather();
             return true;
 
         }
@@ -74,30 +73,41 @@ public class ForecastFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateWeather() {
+
+        //Getting the value from the Location Shared Preference
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location =  sharedPreferences.getString //here if there is no value stored for the location key,
+                //we get the default value as seen from the second argument.
+                (getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        fetchWeatherTask.execute(location);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        //RaW Data
-        String[] forecastArray = {"Mon 6/23-Sunny-31/17",
-                "Tue 6/24-Foggy-21/8",
-                "Wed 6/25-Cloudy-22/17",
-                "Thurs 6/26-Rainy-18/11",
-                "Fri 6/27-Foggy-21/10",
-                "Sat 6/28-Trapped In WeatherStation-23/18",
-                "Sun 6/29-Sunny-20/7"};
 
         //Inflating the fragmentLayout into a View
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         //converting the raw data into list
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 
         //finding the  view of the list
         ListView listView = (ListView) rootView.findViewById(R.id.list_view_forecast);
 
         //initializing the adapter
-         mForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_view_item_forecast, R.id.text_view_forecast, weekForecast);
+         mForecastAdapter = new ArrayAdapter<String>(getActivity(),
+                         R.layout.list_view_item_forecast,
+                         R.id.text_view_forecast,
+                         new ArrayList<String>());
 
         //binding the listview to the adpater
         listView.setAdapter(mForecastAdapter);
@@ -111,7 +121,6 @@ public class ForecastFragment extends Fragment {
                 String forecast = mForecastAdapter.getItem(position);
                 Intent forecastIntent = new Intent(getActivity(), Detail_Activity.class).putExtra(Intent.EXTRA_TEXT, forecast);
                 startActivity(forecastIntent);
-
 
             }
         });

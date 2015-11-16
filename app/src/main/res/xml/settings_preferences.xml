@@ -6,7 +6,11 @@
         android:key="@string/pref_location_key"
         android:defaultValue="@string/pref_location_default"
         android:inputType="text"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:summary="@string/pref_location_default"
+       />
+
+    
 
 </PreferenceScreen>
 
