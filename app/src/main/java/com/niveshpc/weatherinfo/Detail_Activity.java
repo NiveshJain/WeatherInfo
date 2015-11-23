@@ -42,6 +42,7 @@ public class Detail_Activity extends AppCompatActivity {
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
 }

@@ -19,8 +19,7 @@ public class Settings_Fragment extends PreferenceFragment implements Preference.
 
         //For all preferences attach an onPreferenceChangeListner so the UI summary can be updated when the preference changes
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
-
-
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
 
     }
 
@@ -41,7 +40,6 @@ public class Settings_Fragment extends PreferenceFragment implements Preference.
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-
 
         preference.setSummary(newValue.toString());
         return true;
