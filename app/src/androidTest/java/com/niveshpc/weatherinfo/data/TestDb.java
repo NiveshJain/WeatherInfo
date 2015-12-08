@@ -1,5 +1,6 @@
 package com.niveshpc.weatherinfo.data;
 
+
 /*
  * Copyright (C) 2014 The Android Open Source Project
  *
@@ -15,6 +16,7 @@ package com.niveshpc.weatherinfo.data;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -60,6 +62,7 @@ public class TestDb extends AndroidTestCase {
         SQLiteDatabase db = new WeatherDbHelper(
                 this.mContext).getWritableDatabase();
         assertEquals(true, db.isOpen());
+
 
         // have we created the tables we want?
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
