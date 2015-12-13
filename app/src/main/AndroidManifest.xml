@@ -41,6 +41,11 @@
                 android:value="com.niveshpc.weatherinfo.MainActivity" />
         </activity>
 
+        <provider android:authorities="com.niveshpc.weatherinfo"
+            android:name=".data.WeatherProvider">
+
+            </provider>
+
     </application>
 
 </manifest>

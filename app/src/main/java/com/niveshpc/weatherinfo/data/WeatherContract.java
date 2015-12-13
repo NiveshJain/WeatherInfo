@@ -85,8 +85,6 @@ public class WeatherContract {
 
         public static final String COLUMN_COORD_LONG = "coord_long" ;
 
-
-
     }
 
     /* Inner class that defines the table contents of the weather table */
@@ -109,7 +107,7 @@ public class WeatherContract {
             Student: Fill in this buildWeatherLocation function
          */
         public static Uri buildWeatherLocation(String locationSetting) {
-            return null;
+                return CONTENT_URI.buildUpon().appendPath(locationSetting).build();
         }
 
         public static Uri buildWeatherLocationWithStartDate(
