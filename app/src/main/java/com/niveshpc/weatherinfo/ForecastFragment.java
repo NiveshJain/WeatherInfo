@@ -61,20 +61,15 @@ public class ForecastFragment extends Fragment {
 
         FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity(), mForecastAdapter);
         //Getting the value from the Location Shared Preference
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
         //here if there is no value stored for the location key,
         //we get the default value as seen from the second argument.
-        String location =  sharedPreferences.getString (
-                getString(R.string.pref_location_key),
-                getString(R.string.pref_location_default)
-        );
-
-
-
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(getActivity(), mForecastAdapter);
-        fetchWeatherTask.execute(location);
+        weatherTask.execute(location);
 
     }
+
+
 
     @Override
     public void onStart() {

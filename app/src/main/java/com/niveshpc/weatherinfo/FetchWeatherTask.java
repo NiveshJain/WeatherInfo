@@ -54,8 +54,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         mForecastAdapter = forecastAdapter;
     }
 
-
-
     private boolean DEBUG = true;
 
     /* The date/time conversion code is going to be moved outside the asynctask later,
@@ -120,6 +118,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         the UX expects so that we can continue to test the application even once we begin using
         the database.
      */
+
     String[] convertContentValuesToUXFormat(Vector<ContentValues> cvv) {
         // return strings to keep UI functional for now
         String[] resultStrs = new String[cvv.size()];
