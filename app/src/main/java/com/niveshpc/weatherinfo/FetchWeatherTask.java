@@ -54,6 +54,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         mForecastAdapter = forecastAdapter;
     }
 
+
+
     private boolean DEBUG = true;
 
     /* The date/time conversion code is going to be moved outside the asynctask later,
